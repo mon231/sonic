@@ -1,0 +1,58 @@
+name: Build mod SWF
+
+on:
+  push:
+    branches: ["main"]
+    paths:
+      - "decompiled/scripts/**"
+      - "151706_ultimate_sonic.swf"
+      - ".github/workflows/build.yml"
+  pull_request:
+    paths:
+      - "decompiled/scripts/**"
+      - "151706_ultimate_sonic.swf"
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "17"
+
+      - name: Cache FFDec
+        id: cache-ffdec
+        uses: actions/cache@v4
+        with:
+          path: ffdec/ffdec.jar
+          key: ffdec-21.0.1
+
+      - name: Download FFDec
+        if: steps.cache-ffdec.outputs.cache-hit != 'true'
+        run: |
+          mkdir -p ffdec
+          curl -L \
+            https://github.com/jindrapetrik/jpexs-decompiler/releases/download/version21.0.1/ffdec_21.0.1.zip \
+            -o ffdec.zip
+          unzip -j ffdec.zip "ffdec.jar" -d ffdec/
+
+      - name: Recompile SWF
+        run: |
+          java -jar ffdec/ffdec.jar \
+            -importScript 151706_ultimate_sonic.swf sonic_fly.swf \
+            decompiled/scripts
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: sonic_fly
+          path: sonic_fly.swf
+          retention-days: 30
+          if-no-files-found: error
