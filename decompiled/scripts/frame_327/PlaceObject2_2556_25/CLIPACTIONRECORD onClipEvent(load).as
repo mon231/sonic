@@ -132,7 +132,7 @@ onClipEvent(load){
       {
          if(jumpdown == "off")
          {
-            if(chara == "tails" || chara == "cream" || chara == "sonic")
+            if(chara == "tails" || chara == "cream" || _root.cheat[6] == 2)
             {
                if(fly == "off")
                {
@@ -352,13 +352,13 @@ onClipEvent(load){
       }
       else if(fly != "off")
       {
-         if(chara == "sonic")
+         if(chara == "tails" || chara == "cream")
          {
-            this.sonic.gotoAndStop("jumphigh");
+            this.sonic.gotoAndStop("fly");
          }
          else
          {
-            this.sonic.gotoAndStop("fly");
+            this.sonic.gotoAndStop("jumphigh");
          }
       }
       else if(jhigh == "on")

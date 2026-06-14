@@ -247,11 +247,11 @@ onClipEvent(enterFrame){
       }
       if(_root.pause == 0)
       {
-         if(chara == "tails" || chara == "cream" || chara == "sonic")
+         if(chara == "tails" || chara == "cream" || _root.cheat[6] == 2)
          {
             if(fly != "off")
             {
-               if(chara == "sonic")
+               if(chara != "tails" && chara != "cream")
                {
                   if(fly >= 0)
                   {

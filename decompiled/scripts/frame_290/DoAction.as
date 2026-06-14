@@ -39,38 +39,18 @@ function getpasswd()
 }
 function setcheats()
 {
-   if(_root.zones < Number(_root.save.sonic.charAt(0)))
+   var a = 1;
+   while(6 >= a)
    {
-      _root.cheat[1] = 1;
-   }
-   if(_root.zones < Number(_root.save.tails.charAt(0)))
-   {
-      _root.cheat[2] = 1;
-   }
-   if(_root.zones < Number(_root.save.knuckles.charAt(0)))
-   {
-      _root.cheat[3] = 1;
-   }
-   if(_root.zones < Number(_root.save.cream.charAt(0)))
-   {
-      _root.cheat[4] = 1;
-   }
-   if(_root.zones < Number(_root.save.amy.charAt(0)))
-   {
-      _root.cheat[5] = 1;
-   }
-   if(_root.zones < Number(_root.save.sonic.charAt(0)) && _root.zones < Number(_root.save.tails.charAt(0)))
-   {
-      if(_root.zones < Number(_root.save.knuckles.charAt(0)) && _root.zones < Number(_root.save.cream.charAt(0)))
+      if(_root.cheat[a] == 0)
       {
-         unlock[1] = 1;
-         if(_root.zones < Number(_root.save.amy.charAt(0)))
-         {
-            unlock[2] = 1;
-            unlock[3] = 1;
-         }
+         _root.cheat[a] = 1;
       }
+      a++;
    }
+   _root.unlock[1] = 1;
+   _root.unlock[2] = 1;
+   _root.unlock[3] = 1;
 }
 _root.musicvol = 100;
 _root.FXvol = 100;
@@ -102,6 +82,7 @@ _root.cheat["2-name"] = "tails follow";
 _root.cheat["3-name"] = "behind";
 _root.cheat["4-name"] = "big-cheese";
 _root.cheat["5-name"] = "moon";
+_root.cheat["6-name"] = "all fly";
 _root.unlock = new Array();
 _root.unlock[1] = 0;
 _root.unlock[2] = 0;
