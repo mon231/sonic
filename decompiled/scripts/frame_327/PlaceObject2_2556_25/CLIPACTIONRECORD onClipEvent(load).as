@@ -132,7 +132,7 @@ onClipEvent(load){
       {
          if(jumpdown == "off")
          {
-            if(chara == "tails" || chara == "cream")
+            if(chara == "tails" || chara == "cream" || chara == "sonic")
             {
                if(fly == "off")
                {
@@ -352,7 +352,14 @@ onClipEvent(load){
       }
       else if(fly != "off")
       {
-         this.sonic.gotoAndStop("fly");
+         if(chara == "sonic")
+         {
+            this.sonic.gotoAndStop("jumphigh");
+         }
+         else
+         {
+            this.sonic.gotoAndStop("fly");
+         }
       }
       else if(jhigh == "on")
       {

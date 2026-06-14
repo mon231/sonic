@@ -247,11 +247,18 @@ onClipEvent(enterFrame){
       }
       if(_root.pause == 0)
       {
-         if(chara == "tails" || chara == "cream")
+         if(chara == "tails" || chara == "cream" || chara == "sonic")
          {
             if(fly != "off")
             {
-               if(this.Sonic._currentframe == 180)
+               if(chara == "sonic")
+               {
+                  if(fly >= 0)
+                  {
+                     fly -= 1;
+                  }
+               }
+               else if(this.Sonic._currentframe == 180)
                {
                   if(fly >= 0)
                   {
