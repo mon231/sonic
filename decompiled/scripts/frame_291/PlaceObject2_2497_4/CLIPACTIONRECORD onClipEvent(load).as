@@ -59,4 +59,5 @@ onClipEvent(load){
    cheats.name = "cheats";
    last = new Array();
    lastN = 0;
+   cheatPage = 0;
 }

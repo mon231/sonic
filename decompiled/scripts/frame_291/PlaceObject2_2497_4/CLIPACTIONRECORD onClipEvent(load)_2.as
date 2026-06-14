@@ -11,35 +11,70 @@ onClipEvent(load){
          {
             if(current == "cheats")
             {
-               a2 = a2start;
-               while(8 >= a2)
+               var maxCheat = 8;
+               var pageSize = 5;
+               var slot = 2;
+               var cheatIdx = cheatPage + 1;
+               var shown = 0;
+               if(cheatPage > 0)
                {
-                  if(!(_root.cheat[a2] == 0 || a2 == 8))
-                  {
-                     this["b" add a].d = "off";
-                     duplicateMovieClip(this.b1,"b" add a,16384 + a);
-                     this["b" add a].t = _root.cheat[a2 add "-name"].toUpperCase();
-                     this["b" add a].cn = a2;
-                     this["b" add a]._y = this.b1._y + (a - 1) * 15;
-                     a2start = a2 + 1;
-                     break;
-                  }
-                  if(a2 == 8)
-                  {
-                     this["b" add a].d = "off";
-                     duplicateMovieClip(this.b1,"b" add a,16384 + a);
-                     this["b" add a].t = "BACK";
-                     this["b" add a]._y = this.b1._y + (a - 1) * 15;
-                     backn = a;
-                     a = 30;
-                     if(a2start == 1)
-                     {
-                        this.b1.t = "no cheats";
-                     }
-                     break;
-                  }
-                  a2++;
+                  duplicateMovieClip(this.b1,"b" add slot,16384 + slot);
+                  this["b" add slot].d = "off";
+                  this["b" add slot].t = "< PREV";
+                  this["b" add slot].cn = "prev";
+                  this["b" add slot]._y = this.b1._y + (slot - 1) * 15;
+                  slot++;
                }
+               while(cheatIdx <= maxCheat && shown < pageSize)
+               {
+                  if(_root.cheat[cheatIdx] != 0)
+                  {
+                     duplicateMovieClip(this.b1,"b" add slot,16384 + slot);
+                     this["b" add slot].d = "off";
+                     this["b" add slot].t = _root.cheat[cheatIdx add "-name"].toUpperCase();
+                     this["b" add slot].cn = cheatIdx;
+                     this["b" add slot]._y = this.b1._y + (slot - 1) * 15;
+                     slot++;
+                     shown++;
+                  }
+                  cheatIdx++;
+               }
+               var hasMore = false;
+               var peek = cheatIdx;
+               while(peek <= maxCheat)
+               {
+                  if(_root.cheat[peek] != 0)
+                  {
+                     hasMore = true;
+                     break;
+                  }
+                  peek++;
+               }
+               if(hasMore)
+               {
+                  duplicateMovieClip(this.b1,"b" add slot,16384 + slot);
+                  this["b" add slot].d = "off";
+                  this["b" add slot].t = "NEXT >";
+                  this["b" add slot].cn = "next";
+                  this["b" add slot]._y = this.b1._y + (slot - 1) * 15;
+                  slot++;
+               }
+               duplicateMovieClip(this.b1,"b" add slot,16384 + slot);
+               this["b" add slot].d = "off";
+               this["b" add slot].t = "BACK";
+               this["b" add slot]._y = this.b1._y + (slot - 1) * 15;
+               backn = slot;
+               if(shown == 0 && cheatPage == 0)
+               {
+                  this.b1.t = "no cheats";
+               }
+               var cleanup = slot + 1;
+               while(10 >= cleanup)
+               {
+                  this["b" add cleanup].removeMovieClip();
+                  cleanup++;
+               }
+               a = 30;
             }
             else if(this[current][a add "-type"] == "regler")
             {

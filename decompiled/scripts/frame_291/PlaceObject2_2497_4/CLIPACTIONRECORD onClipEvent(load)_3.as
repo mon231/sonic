@@ -178,8 +178,33 @@ onClipEvent(load){
          {
             if(this["b" add a].d == "on")
             {
+               cheatPage = 0;
                back(backn);
             }
+         }
+         else if(this["b" add a].cn == "prev")
+         {
+            if(this["b" add a].d == "on")
+            {
+               this["b" add a].d = "off";
+               cheatPage -= 5;
+               if(cheatPage < 0)
+               {
+                  cheatPage = 0;
+               }
+               setbuttons();
+            }
+            this["b" add a].t = "< PREV";
+         }
+         else if(this["b" add a].cn == "next")
+         {
+            if(this["b" add a].d == "on")
+            {
+               this["b" add a].d = "off";
+               cheatPage += 5;
+               setbuttons();
+            }
+            this["b" add a].t = "NEXT >";
          }
          else
          {
@@ -195,14 +220,17 @@ onClipEvent(load){
                }
                this["b" add a].d = "off";
             }
-            this["b" add a].t = _root.cheat[this["b" add a].cn add "-name"];
-            if(_root.cheat[this["b" add a].cn] == 1)
+            if(_root.cheat[this["b" add a].cn] >= 1)
             {
-               this["b" add a].t = (this["b" add a].t add ": off").toUpperCase();
-            }
-            else if(_root.cheat[this["b" add a].cn] == 2)
-            {
-               this["b" add a].t = (this["b" add a].t add ": on").toUpperCase();
+               this["b" add a].t = _root.cheat[this["b" add a].cn add "-name"];
+               if(_root.cheat[this["b" add a].cn] == 1)
+               {
+                  this["b" add a].t = (this["b" add a].t add ": off").toUpperCase();
+               }
+               else if(_root.cheat[this["b" add a].cn] == 2)
+               {
+                  this["b" add a].t = (this["b" add a].t add ": on").toUpperCase();
+               }
             }
          }
          a++;

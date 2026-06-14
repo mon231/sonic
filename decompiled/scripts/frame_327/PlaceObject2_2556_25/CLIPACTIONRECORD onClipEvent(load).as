@@ -458,6 +458,10 @@ onClipEvent(load){
    }
    function sethit()
    {
+      if(_root.cheat[8] == 2)
+      {
+         return;
+      }
       if(dead != "on")
       {
          if(hit != "on")
