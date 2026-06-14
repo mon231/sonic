@@ -7,14 +7,14 @@ onClipEvent(load){
       var a = 2;
       while(10 >= a)
       {
-         if(0 < this[current][a].length || current == "cheats" && 7 >= a2start)
+         if(0 < this[current][a].length || current == "cheats" && 8 >= a2start)
          {
             if(current == "cheats")
             {
                a2 = a2start;
-               while(7 >= a2)
+               while(8 >= a2)
                {
-                  if(!(_root.cheat[a2] == 0 || a2 == 7))
+                  if(!(_root.cheat[a2] == 0 || a2 == 8))
                   {
                      this["b" add a].d = "off";
                      duplicateMovieClip(this.b1,"b" add a,16384 + a);
@@ -24,7 +24,7 @@ onClipEvent(load){
                      a2start = a2 + 1;
                      break;
                   }
-                  if(a2 == 7)
+                  if(a2 == 8)
                   {
                      this["b" add a].d = "off";
                      duplicateMovieClip(this.b1,"b" add a,16384 + a);
