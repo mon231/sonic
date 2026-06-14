@@ -21,6 +21,22 @@ onClipEvent(enterFrame){
          pausedown = "off";
       }
    }
+   if(fin != "on" && dead != "on" && _root.pause != 2)
+   {
+      if(Key.isDown(81) || Key.isDown(191))
+      {
+         if(quitdown != "on")
+         {
+            _root.quit = "on";
+            _root.gotoAndStop("fin");
+         }
+         quitdown = "on";
+      }
+      else
+      {
+         quitdown = "off";
+      }
+   }
    if(_root.pause != 0 || dead == "on")
    {
       if(dead == "on")

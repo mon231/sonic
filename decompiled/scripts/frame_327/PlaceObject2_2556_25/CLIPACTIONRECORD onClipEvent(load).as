@@ -527,6 +527,7 @@ onClipEvent(load){
    right = "39";
    Jump = "32";
    dead = "off";
+   quitdown = "off";
    m = 12;
    d = "Level";
    rot = 0;
