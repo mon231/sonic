@@ -1,4 +1,5 @@
 # Ultimate Sonic Flash — Modded
+[Click To Play](https://mon231.github.io/sonic/)
 
 A community mod of the classic *Ultimate Sonic* Flash game, adding quality-of-life cheats and gameplay features including universal flying, a ring magnet, and a ground pound.
 
