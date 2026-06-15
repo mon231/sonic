@@ -80,11 +80,11 @@ The mod's ActionScript sources live in `decompiled/scripts/`. The build process 
 
 ```bash
 java -jar /path/to/ffdec.jar \
-  -importScript 151706_ultimate_sonic.swf sonic_fly.swf \
+  -importScript ultimate_sonic.swf sonic_fly.swf \
   decompiled/scripts
 ```
 
-The original SWF (`151706_ultimate_sonic.swf`) is left untouched; all output goes to `sonic_fly.swf`.
+The original SWF (`ultimate_sonic.swf`) is left untouched; all output goes to `sonic_fly.swf`.
 
 ---
 
@@ -92,7 +92,7 @@ The original SWF (`151706_ultimate_sonic.swf`) is left untouched; all output goe
 
 ```
 .
-├── 151706_ultimate_sonic.swf   # original, unmodified game binary (source)
+├── ultimate_sonic.swf   # original, unmodified game binary (source)
 ├── sonic_fly.swf               # compiled mod output (produced by CI)
 ├── decompiled/
 │   └── scripts/                # modified ActionScript 2 sources

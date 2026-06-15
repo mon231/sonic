@@ -5,12 +5,12 @@ on:
     branches: ["main"]
     paths:
       - "decompiled/scripts/**"
-      - "151706_ultimate_sonic.swf"
+      - "ultimate_sonic.swf"
       - ".github/workflows/build.yml"
   pull_request:
     paths:
       - "decompiled/scripts/**"
-      - "151706_ultimate_sonic.swf"
+      - "ultimate_sonic.swf"
   workflow_dispatch:
 
 jobs:
@@ -46,7 +46,7 @@ jobs:
       - name: Recompile SWF
         run: |
           java -jar ffdec/ffdec.jar \
-            -importScript 151706_ultimate_sonic.swf sonic_fly.swf \
+            -importScript ultimate_sonic.swf sonic_fly.swf \
             decompiled/scripts
 
       - name: Upload artifact
