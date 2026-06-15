@@ -1,3 +1,3 @@
 on(release){
-   this.play();
+   _root.gotoAndPlay(290);
 }

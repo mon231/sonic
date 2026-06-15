@@ -1,1 +1,1 @@
-stop();
+gotoAndPlay(290);
