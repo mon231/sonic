@@ -105,6 +105,14 @@ onClipEvent(load){
          roll = "off";
       }
       tunnel = "off";
+      if(Key.isDown(down))
+      {
+         pounddown = "on";
+      }
+      else
+      {
+         pounddown = "off";
+      }
    }
    function control_a()
    {
@@ -134,7 +142,7 @@ onClipEvent(load){
          {
             if(chara == "tails" || chara == "cream" || _root.cheat[6] == 2)
             {
-               if(fly == "off")
+               if(fly == "off" && gpound != "on")
                {
                   if(j == "on")
                   {
@@ -160,6 +168,21 @@ onClipEvent(load){
       else
       {
          jumpdown = "off";
+      }
+      if(Key.isDown(down))
+      {
+         if(pounddown != "on" && gpound != "on")
+         {
+            y = -15;
+            x *= 0.2;
+            fly = "off";
+            gpound = "on";
+         }
+         pounddown = "on";
+      }
+      else
+      {
+         pounddown = "off";
       }
    }
    function slowdown(name, to, value)
@@ -350,6 +373,10 @@ onClipEvent(load){
       {
          this.Sonic.gotoAndStop("swing");
       }
+      else if(gpound == "on")
+      {
+         this.sonic.gotoAndStop("roll");
+      }
       else if(fly != "off")
       {
          if(chara == "tails" || chara == "cream")
@@ -462,6 +489,7 @@ onClipEvent(load){
       {
          return;
       }
+      gpound = "off";
       if(dead != "on")
       {
          if(hit != "on")
@@ -528,6 +556,9 @@ onClipEvent(load){
    Jump = "32";
    dead = "off";
    quitdown = "off";
+   gpound = "off";
+   pounddown = "off";
+   poundFrames = 0;
    m = 12;
    d = "Level";
    rot = 0;

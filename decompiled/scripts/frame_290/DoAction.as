@@ -40,7 +40,7 @@ function getpasswd()
 function setcheats()
 {
    var a = 1;
-   while(8 >= a)
+   while(9 >= a)
    {
       if(_root.cheat[a] == 0)
       {
@@ -72,7 +72,7 @@ while(5 >= a)
 }
 _root.cheat = new Array();
 var a = 1;
-while(8 >= a)
+while(9 >= a)
 {
    _root.cheat[a] = 0;
    a++;
@@ -85,6 +85,7 @@ _root.cheat["5-name"] = "moon";
 _root.cheat["6-name"] = "all fly";
 _root.cheat["7-name"] = "infinite-fly";
 _root.cheat["8-name"] = "invincible";
+_root.cheat["9-name"] = "ring back";
 _root.unlock = new Array();
 _root.unlock[1] = 0;
 _root.unlock[2] = 0;

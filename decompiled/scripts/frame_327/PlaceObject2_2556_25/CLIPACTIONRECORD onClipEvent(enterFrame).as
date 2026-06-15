@@ -201,6 +201,11 @@ onClipEvent(enterFrame){
          g = "on";
          j = "off";
          y = 0;
+         if(gpound == "on")
+         {
+            gpound = "off";
+            poundFrames = 4;
+         }
       }
       else
       {
@@ -290,6 +295,44 @@ onClipEvent(enterFrame){
                   fly = "off";
                }
             }
+         }
+      }
+      if(0 < poundFrames)
+      {
+         this.hitb._xscale = 600;
+         this.hitb._yscale = 600;
+         poundFrames -= 1;
+      }
+      else
+      {
+         this.hitb._xscale = 100;
+         this.hitb._yscale = 100;
+      }
+      if(_root.cheat[9] == 2)
+      {
+         var ri = 1;
+         while(_root.lrtotal >= ri)
+         {
+            var rr = _root["rl" add ri];
+            if(rr != undefined)
+            {
+               var rdx = this._x - rr._x;
+               var rdy = this._y - rr._y;
+               var rdist = Math.sqrt(rdx * rdx + rdy * rdy);
+               if(rdist < 200 && rdist > 0)
+               {
+                  var rforce = 2 * (1 - rdist / 200);
+                  rr.r.x += rforce * (rdx / rdist);
+                  rr.r.y += rforce * (rdy / rdist);
+                  var rspd = Math.sqrt(rr.r.x * rr.r.x + rr.r.y * rr.r.y);
+                  if(rspd > 10)
+                  {
+                     rr.r.x = rr.r.x / rspd * 10;
+                     rr.r.y = rr.r.y / rspd * 10;
+                  }
+               }
+            }
+            ri++;
          }
       }
       swing = "off";

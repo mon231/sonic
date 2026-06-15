@@ -1,6 +1,6 @@
 # Ultimate Sonic Flash — Modded
 
-A community mod of the classic *Ultimate Sonic* Flash game, adding quality-of-life cheats including universal flying and an infinite-fly mode for all characters.
+A community mod of the classic *Ultimate Sonic* Flash game, adding quality-of-life cheats and gameplay features including universal flying, a ring magnet, and a ground pound.
 
 The original game was published on Newgrounds and is now copyright-free. Flash games are run today via the [Ruffle](https://ruffle.rs/) browser extension or desktop player, which emulates the Adobe Flash runtime without requiring Flash itself.
 
@@ -10,11 +10,11 @@ The original game was published on Newgrounds and is now copyright-free. Flash g
 
 ### Cheat system — all cheats always available
 
-The original game locked cheats behind save-file progress (you had to complete zones with every character to unlock each one). This mod calls `setcheats()` unconditionally so **all cheats are available from the very first launch**, no progress required. Amy and Shadow are also always unlocked in the character select screen.
+The original game locked cheats behind save-file progress. This mod calls `setcheats()` unconditionally so **all cheats are available from the very first launch**. Amy and Shadow are also always unlocked in the character select screen. The cheat menu is scrollable (5 per page with PREV/NEXT buttons) to keep the screen uncluttered.
 
 ### Cheat 6 — `ALL FLY`
 
-In the original game only Tails and Cream can fly (double-tap Jump while airborne to glide, tap again to flap upward). This cheat extends that ability to every character — Sonic, Knuckles, Amy, and Shadow included.
+In the original game only Tails and Cream can fly (double-tap Jump while airborne to glide, tap again to flap upward). This cheat extends that ability to every character.
 
 - Tails and Cream retain their native `fly` animation.
 - All other characters use the `jumphigh` animation as a visual stand-in while gliding.
@@ -22,9 +22,29 @@ In the original game only Tails and Cream can fly (double-tap Jump while airborn
 
 ### Cheat 7 — `INFINITE-FLY`
 
-When toggled on alongside `ALL FLY` (or while playing as Tails / Cream), the fly timer is refreshed to `100` every game frame instead of counting down. The character stays airborne indefinitely and can keep tapping Jump to gain height. Flying still ends the moment the character touches the ground.
+When toggled on alongside `ALL FLY` (or while playing as Tails / Cream), the fly timer is refreshed every frame instead of counting down. The character stays airborne indefinitely. Has no effect unless the current character can fly.
 
-> `INFINITE-FLY` has no effect unless the current character can fly — either because `ALL FLY` is active, or because the selected character is Tails or Cream.
+### Cheat 8 — `INVINCIBLE`
+
+`sethit()` returns immediately before applying any damage. The character cannot lose rings, take a hit, or die from enemy contact.
+
+### Cheat 9 — `RING MAGNET`
+
+Loose rings within 200 screen pixels are pulled toward the player each frame. Attraction scales with proximity; ring velocity is capped at 10 px/frame for a smooth glide. Rings still collect normally once they reach the player's hitbox.
+
+### `Q` / `q` / `/` — Quit to menu
+
+Pressing any of these keys during gameplay immediately returns to the main menu (no life deducted).
+
+---
+
+## Ground pound (always-on, no cheat required)
+
+While airborne, press **Down** to ground pound:
+
+- Snaps to fast falling velocity; horizontal speed is cut to 20%.
+- Cancels any active fly mode.
+- On landing the hitbox expands to 600% for 4 frames, defeating nearby enemies through their own collision code.
 
 ---
 
@@ -32,9 +52,8 @@ When toggled on alongside `ALL FLY` (or while playing as Tails / Cream), the fly
 
 1. Open the game (see **Playing the mod** below).
 2. From the main menu choose **CHEATS**.
-3. Toggle **ALL FLY: ON** (and optionally **INFINITE-FLY: ON**).
+3. Toggle any cheats on (use NEXT/PREV to scroll through all 9).
 4. Select a character and start a level.
-5. Jump, then press Jump again mid-air to begin flying.
 
 ---
 
@@ -81,12 +100,12 @@ The original SWF (`151706_ultimate_sonic.swf`) is left untouched; all output goe
 │       │   └── DoAction.as                         # cheat registry & setcheats()
 │       ├── frame_291/
 │       │   └── PlaceObject2_2497_4/
-│       │       ├── onClipEvent(load)_2.as           # cheat menu display (sentinel bump 7→8)
+│       │       ├── onClipEvent(load)_2.as           # cheat menu display / scrolling (maxCheat=9)
 │       │       └── onClipEvent(load)_3.as           # cheat toggle handler
 │       └── frame_327/
 │           └── PlaceObject2_2556_25/
-│               ├── onClipEvent(load).as             # control_a(), animations(), setgravity()
-│               └── onClipEvent(enterFrame).as       # per-frame fly countdown / infinite-fly reset
+│               ├── onClipEvent(load).as             # control functions, animations, ground pound init
+│               └── onClipEvent(enterFrame).as       # fly countdown, shockwave, ring magnet
 └── .github/
     └── workflows/
         └── build.yml           # CI/CD: recompile SWF and publish as artifact
@@ -102,10 +121,16 @@ The SWF was decompiled with `ffdec -export script` into ActionScript 2 (`.as`) f
 
 ### Fly mechanic internals
 
-The `fly` variable is an integer (`"off"` when inactive, `100` when first activated). Each game frame it decrements by 1 while the fly animation is playing. `setgravity()` divides gravity by 5 whenever `fly != "off"`, giving the floaty feel. `control_a()` allows an upward velocity boost (`y += 1`) on each Jump press while `fly > 0`.
+The `fly` variable is an integer (`"off"` when inactive, `100` when first activated). Each game frame it decrements by 1. `setgravity()` divides gravity by 5 whenever `fly != "off"`. `INFINITE-FLY` writes `fly = 100` each frame so the timer never reaches 0.
 
-`INFINITE-FLY` works by writing `fly = 100` each frame inside the countdown block, so the timer never reaches 0 and the boost window never closes.
+### Ground pound shockwave
+
+All enemies call `hitTest(_root.Sonic1.hitb)` for player contact detection — there is one shared hitbox clip. Scaling `hitb._xscale/_yscale` to 600% for 4 frames after landing causes every nearby enemy's own per-frame collision check to fire, defeating them without modifying any enemy script.
+
+### Ring magnet coordinates
+
+Loose ring clips (`_root["rl" + n]`) and the player both have their `_x/_y` kept in screen space by the camera system. The distance check in the magnet code works in screen pixels directly — no coordinate conversion needed.
 
 ### Why `jumphigh` for non-Tails/Cream characters
 
-Sonic, Knuckles, Amy, and Shadow have no `fly` frame label in their sprite timelines (their animations top out at frame 120, whereas Tails and Cream have a dedicated looping `fly` animation at frame 180). `jumphigh` is the closest existing airborne pose available in all character sprites.
+Sonic, Knuckles, Amy, and Shadow have no `fly` frame label in their sprite timelines (animations top out at frame 120; Tails and Cream have a dedicated looping `fly` animation at frame 180). `jumphigh` is the closest existing airborne pose available in all character sprites.

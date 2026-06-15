@@ -11,7 +11,7 @@ onClipEvent(load){
          {
             if(current == "cheats")
             {
-               var maxCheat = 8;
+               var maxCheat = 9;
                var pageSize = 5;
                var slot = 2;
                var cheatIdx = cheatPage + 1;
