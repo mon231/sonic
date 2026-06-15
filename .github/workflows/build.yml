@@ -40,21 +40,21 @@ jobs:
         id: cache-ffdec
         uses: actions/cache@v4
         with:
-          path: ffdec/ffdec.jar
+          path: ffdec/
           key: ffdec-21.0.1
 
       - name: Download FFDec
         if: steps.cache-ffdec.outputs.cache-hit != 'true'
         run: |
-          mkdir -p ffdec
           curl -L \
             https://github.com/jindrapetrik/jpexs-decompiler/releases/download/version21.0.1/ffdec_21.0.1.zip \
             -o ffdec.zip
-          unzip -j ffdec.zip "ffdec.jar" -d ffdec/
+          unzip ffdec.zip -d ffdec/
 
       - name: Recompile SWF
         run: |
-          java -Djava.awt.headless=true -jar ffdec/ffdec.jar \
+          FFDEC=$(find ffdec -name "ffdec.jar" | head -1)
+          java -Djava.awt.headless=true -jar "$FFDEC" \
             -importScript ultimate_sonic.swf sonic_fly.swf \
             decompiled/scripts
 
