@@ -5,7 +5,7 @@
     <title>Ultimate Sonic</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { background: #000; display: flex; justify-content: center; align-items: center; min-height: 100vh; }
+        html, body { width: 100%; height: 100%; background: #000; overflow: hidden; }
     </style>
 </head>
 <body>
@@ -14,10 +14,15 @@
         window.addEventListener("load", function () {
             var ruffle = window.RufflePlayer.newest();
             var player = ruffle.createPlayer();
-            player.style.width = "550px";
-            player.style.height = "400px";
+            player.style.cssText = "width:100vw;height:100vh;display:block;";
             document.body.appendChild(player);
-            player.load("./sonic_fly.swf");
+            player.load({
+                url: "./sonic_fly.swf",
+                autoplay: "on",
+                scale: "showAll",
+                quality: "high",
+                salign: "c"
+            });
         });
     </script>
 </body>
