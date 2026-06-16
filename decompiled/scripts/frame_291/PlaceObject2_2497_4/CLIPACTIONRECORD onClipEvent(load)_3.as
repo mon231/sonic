@@ -97,6 +97,10 @@ onClipEvent(load){
          pass = new Array();
          passn = "2";
          passw = "invalid passwd";
+         if(this["b" add passn].t.toUpperCase() == "ATAT")
+         {
+            this["b" add passn].t = "595313131313131";
+         }
          if(this["b" add passn].t.toLowerCase() == "dennis_gid")
          {
             _root.attachMovie("easteregg","easteregg","100");
