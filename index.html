@@ -2,47 +2,70 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, viewport-fit=cover">
     <title>Ultimate Sonic</title>
     <style>
+        /* SWF stage is 350x250 (7:5). Lock the player to that aspect so Ruffle
+           never has to render oversized/clipped sides on wide screens. */
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        html, body { width: 100%; height: 100%; background: #000; overflow: hidden; touch-action: none; }
+        html, body { width: 100%; height: 100%; background: #000; overflow: hidden; }
+        body {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            touch-action: none;
+        }
+        /* Largest 7:5 box that fits the viewport, centered (black letterbox).
+           Works the same in portrait and landscape, so flipping is supported. */
+        ruffle-player {
+            display: block;
+            width:  min(100vw, calc(100vh * 7 / 5));
+            height: min(100vh, calc(100vw * 5 / 7));
+        }
 
+        /* On-screen controls float OVER the game (no background bar), anchored to
+           the bottom corners so they work in any orientation. The container lets
+           touches pass through; only the buttons themselves are interactive. */
         #controls {
             position: fixed;
-            bottom: 0; left: 0; right: 0;
-            height: 148px;
+            left: 0; right: 0; bottom: 0;
             display: none;
             justify-content: space-between;
-            align-items: center;
-            padding: 12px 24px;
-            background: rgba(0,0,0,0.45);
+            align-items: flex-end;
+            padding: 18px max(18px, env(safe-area-inset-right)) max(18px, env(safe-area-inset-bottom)) max(18px, env(safe-area-inset-left));
             z-index: 10;
+            pointer-events: none;
         }
 
         #dpad {
             display: grid;
-            grid-template-columns: repeat(3, 54px);
-            grid-template-rows: repeat(3, 54px);
-            gap: 3px;
+            grid-template-columns: repeat(3, 56px);
+            grid-template-rows: repeat(3, 56px);
+            gap: 4px;
         }
 
-        .dpad-btn {
-            background: rgba(255,255,255,0.13);
-            border: 1.5px solid rgba(255,255,255,0.28);
-            border-radius: 10px;
-            color: #fff;
-            font-size: 20px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+        .dpad-btn, #btn-jump {
+            pointer-events: auto;
+            background: transparent;             /* floating: no fill */
+            color: rgba(255, 255, 255, 0.85);
+            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.7);
             cursor: pointer;
             user-select: none;
             -webkit-user-select: none;
             -webkit-tap-highlight-color: transparent;
+            touch-action: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             transition: background 0.05s;
         }
-        .dpad-btn:active { background: rgba(255,255,255,0.35); }
+
+        .dpad-btn {
+            border: 2px solid rgba(255, 255, 255, 0.55);
+            border-radius: 12px;
+            font-size: 22px;
+        }
+        .dpad-btn.held, .dpad-btn:active { background: rgba(255, 255, 255, 0.3); }
 
         #btn-up    { grid-column: 2; grid-row: 1; }
         #btn-left  { grid-column: 1; grid-row: 2; }
@@ -50,25 +73,15 @@
         #btn-down  { grid-column: 2; grid-row: 3; }
 
         #btn-jump {
-            width: 84px;
-            height: 84px;
+            width: 88px;
+            height: 88px;
             border-radius: 50%;
-            background: rgba(210, 50, 50, 0.45);
-            border: 2px solid rgba(255,110,110,0.5);
-            color: #fff;
-            font-size: 13px;
+            border: 2px solid rgba(255, 110, 110, 0.8);
+            font-size: 14px;
             font-weight: bold;
             letter-spacing: 0.5px;
-            cursor: pointer;
-            user-select: none;
-            -webkit-user-select: none;
-            -webkit-tap-highlight-color: transparent;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: background 0.05s;
         }
-        #btn-jump:active { background: rgba(210, 50, 50, 0.85); }
+        #btn-jump.held, #btn-jump:active { background: rgba(210, 50, 50, 0.55); }
     </style>
 </head>
 <body>
@@ -92,13 +105,27 @@
             40: { key: "ArrowDown",  code: "ArrowDown"   }
         };
 
-        function fireKey(keyCode, type) {
+        // Track which keys we believe are down so we never send a duplicate
+        // keydown and, crucially, never leave a key stuck "on".
+        var pressed = {};
+
+        function dispatchKey(keyCode, type) {
             var info = KEY_INFO[keyCode];
             window.dispatchEvent(new KeyboardEvent(type, {
                 keyCode: keyCode, which: keyCode,
                 key: info.key, code: info.code,
                 bubbles: true, cancelable: true
             }));
+        }
+        function keyDown(keyCode) {
+            if (!pressed[keyCode]) { pressed[keyCode] = true; dispatchKey(keyCode, "keydown"); }
+        }
+        function keyUp(keyCode) {
+            if (pressed[keyCode]) { pressed[keyCode] = false; dispatchKey(keyCode, "keyup"); }
+        }
+        function releaseAll() {
+            Object.keys(pressed).forEach(function (k) { keyUp(parseInt(k, 10)); });
+            document.querySelectorAll(".dpad-btn, #btn-jump").forEach(function (b) { b.classList.remove("held"); });
         }
 
         window.addEventListener("load", function () {
@@ -109,17 +136,41 @@
             var controls = document.getElementById("controls");
 
             if (isMobile) {
-                player.style.cssText = "width:100vw;height:calc(100vh - 148px);display:block;";
+                document.body.classList.add("mobile");
                 controls.style.display = "flex";
 
                 document.querySelectorAll(".dpad-btn, #btn-jump").forEach(function (btn) {
                     var key = parseInt(btn.dataset.key, 10);
-                    btn.addEventListener("touchstart",  function (e) { e.preventDefault(); fireKey(key, "keydown"); }, { passive: false });
-                    btn.addEventListener("touchend",    function (e) { e.preventDefault(); fireKey(key, "keyup");   }, { passive: false });
-                    btn.addEventListener("touchcancel", function (e) { e.preventDefault(); fireKey(key, "keyup");   }, { passive: false });
+
+                    btn.addEventListener("pointerdown", function (e) {
+                        e.preventDefault();
+                        // Capture so we still get pointerup even if the finger
+                        // slides off the button (the old code missed those and
+                        // left the key stuck down).
+                        try { btn.setPointerCapture(e.pointerId); } catch (_) {}
+                        btn.classList.add("held");
+                        keyDown(key);
+                    });
+
+                    var release = function (e) {
+                        if (e && e.preventDefault) e.preventDefault();
+                        btn.classList.remove("held");
+                        keyUp(key);
+                    };
+                    btn.addEventListener("pointerup", release);
+                    btn.addEventListener("pointercancel", release);
+                    btn.addEventListener("lostpointercapture", release);
+                    btn.addEventListener("contextmenu", function (e) { e.preventDefault(); });
                 });
-            } else {
-                player.style.cssText = "width:100vw;height:100vh;display:block;";
+
+                // Safety nets: if the page is backgrounded / loses focus / the
+                // device rotates, drop every held key so movement can't stick on.
+                window.addEventListener("blur", releaseAll);
+                window.addEventListener("pointercancel", releaseAll);
+                window.addEventListener("orientationchange", releaseAll);
+                document.addEventListener("visibilitychange", function () {
+                    if (document.hidden) releaseAll();
+                });
             }
 
             document.body.insertBefore(player, controls);
