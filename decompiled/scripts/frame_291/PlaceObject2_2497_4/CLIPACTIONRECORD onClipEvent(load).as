@@ -60,4 +60,6 @@ onClipEvent(load){
    last = new Array();
    lastN = 0;
    cheatPage = 0;
+   charaPage = 0;
+   charaPerPage = 4;
 }

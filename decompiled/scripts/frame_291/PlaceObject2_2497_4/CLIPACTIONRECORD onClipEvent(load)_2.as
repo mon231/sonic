@@ -92,35 +92,97 @@ onClipEvent(load){
             }
             else if(current == "chara")
             {
-               this["b" add a].d = "off";
-               duplicateMovieClip(this.b1,"b" add a,16384 + a);
-               if(a == 5)
+               var perPage = charaPerPage;
+               var charCount = 0;
+               var ci = 1;
+               while(this[current][ci].length > 0 && this[current][ci] != "Start Game" && this[current][ci] != "back")
                {
-                  if(_root.unlock[1] == 1)
-                  {
-                     this["b" add a].t = this[current][a].toUpperCase();
-                  }
-                  else
-                  {
-                     this["b" add a].t = " ";
-                  }
+                  charCount++;
+                  ci++;
                }
-               else if(a == 6)
+               var slot = 1;
+               if(charaPage > 0)
                {
-                  if(_root.unlock[2] == 1)
+                  if(slot > 1)
                   {
-                     this["b" add a].t = this[current][a].toUpperCase();
+                     duplicateMovieClip(this.b1,"b" add slot,16384 + slot);
                   }
-                  else
-                  {
-                     this["b" add a].t = " ";
-                  }
+                  this["b" add slot].d = "off";
+                  this["b" add slot].t = "< PREV";
+                  this["b" add slot].cn = "prev";
+                  this["b" add slot].charn = "";
+                  this["b" add slot]._y = this.b1._y + (slot - 1) * 15;
+                  slot++;
                }
-               else
+               var idx = charaPage + 1;
+               var shown = 0;
+               while(idx <= charCount && shown < perPage)
                {
-                  this["b" add a].t = this[current][a].toUpperCase();
+                  if(slot > 1)
+                  {
+                     duplicateMovieClip(this.b1,"b" add slot,16384 + slot);
+                  }
+                  this["b" add slot].d = "off";
+                  this["b" add slot].cn = "";
+                  this["b" add slot].charn = this[current][idx].toLowerCase();
+                  var lbl = this[current][idx].toUpperCase();
+                  if(idx == 5 && _root.unlock[1] != 1)
+                  {
+                     lbl = " ";
+                     this["b" add slot].charn = "";
+                  }
+                  else if(idx == 6 && _root.unlock[2] != 1)
+                  {
+                     lbl = " ";
+                     this["b" add slot].charn = "";
+                  }
+                  this["b" add slot].t = lbl;
+                  this["b" add slot]._y = this.b1._y + (slot - 1) * 15;
+                  slot++;
+                  shown++;
+                  idx++;
                }
-               this["b" add a]._y = this.b1._y + (a - 1) * 15;
+               if(idx <= charCount)
+               {
+                  if(slot > 1)
+                  {
+                     duplicateMovieClip(this.b1,"b" add slot,16384 + slot);
+                  }
+                  this["b" add slot].d = "off";
+                  this["b" add slot].t = "NEXT >";
+                  this["b" add slot].cn = "next";
+                  this["b" add slot].charn = "";
+                  this["b" add slot]._y = this.b1._y + (slot - 1) * 15;
+                  slot++;
+               }
+               if(slot > 1)
+               {
+                  duplicateMovieClip(this.b1,"b" add slot,16384 + slot);
+               }
+               this["b" add slot].d = "off";
+               this["b" add slot].t = "START GAME";
+               this["b" add slot].cn = "start";
+               this["b" add slot].charn = "";
+               this["b" add slot]._y = this.b1._y + (slot - 1) * 15;
+               slot++;
+               if(slot > 1)
+               {
+                  duplicateMovieClip(this.b1,"b" add slot,16384 + slot);
+               }
+               this["b" add slot].d = "off";
+               this["b" add slot].t = "BACK";
+               this["b" add slot].cn = "back";
+               this["b" add slot].charn = "";
+               this["b" add slot]._y = this.b1._y + (slot - 1) * 15;
+               backn = slot;
+               slot++;
+               var cleanup = slot;
+               while(10 >= cleanup)
+               {
+                  this["b" add cleanup].removeMovieClip();
+                  cleanup++;
+               }
+               a = 30;
             }
             else
             {

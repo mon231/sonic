@@ -242,55 +242,45 @@ onClipEvent(load){
    }
    function charaf()
    {
-      if(this.b1.d == "on")
+      var a = 1;
+      while(10 >= a)
       {
-         if(_root.character.character._currentframe == 1)
+         if(this["b" add a].d == "on")
          {
-            _root.chara = "sonic";
+            if(this["b" add a].cn == "prev")
+            {
+               this["b" add a].d = "off";
+               charaPage -= charaPerPage;
+               if(charaPage < 0)
+               {
+                  charaPage = 0;
+               }
+               setbuttons();
+            }
+            else if(this["b" add a].cn == "next")
+            {
+               this["b" add a].d = "off";
+               charaPage += charaPerPage;
+               setbuttons();
+            }
+            else if(this["b" add a].cn == "start")
+            {
+               _root.character.character.play();
+            }
+            else if(this["b" add a].cn == "back")
+            {
+               charaPage = 0;
+               back(a);
+            }
+            else if(this["b" add a].charn.length > 0 && this["b" add a].t != " ")
+            {
+               if(_root.character.character._currentframe == 1)
+               {
+                  _root.chara = this["b" add a].charn;
+               }
+            }
          }
-      }
-      else if(this.b2.d == "on")
-      {
-         if(_root.character.character._currentframe == 1)
-         {
-            _root.chara = "tails";
-         }
-      }
-      else if(this.b3.d == "on")
-      {
-         if(_root.character.character._currentframe == 1)
-         {
-            _root.chara = "knuckles";
-         }
-      }
-      else if(this.b4.d == "on")
-      {
-         if(_root.character.character._currentframe == 1)
-         {
-            _root.chara = "cream";
-         }
-      }
-      else if(this.b5.d == "on" && this.b5.t != " ")
-      {
-         if(_root.character.character._currentframe == 1)
-         {
-            _root.chara = "amy";
-         }
-      }
-      else if(this.b6.d == "on" && this.b5.t != " ")
-      {
-         if(_root.character.character._currentframe == 1)
-         {
-            _root.chara = "shadow";
-         }
-      }
-      else if(this.b7.d == "on")
-      {
-         _root.character.character.play();
-      }
-      else if(this.b8.d == "on")
-      {
-         back(8);
+         a++;
       }
    }
    function optionsf()
