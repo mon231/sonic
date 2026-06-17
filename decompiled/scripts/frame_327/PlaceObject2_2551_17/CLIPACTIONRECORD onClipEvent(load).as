@@ -79,6 +79,17 @@ onClipEvent(load){
             if(0 < this.lvlo["x" add (x + (a - count * 3)) add "y" add (y + count) add "o" add a2])
             {
                obid = this.lvlo["x" add (x + (a - count * 3)) add "y" add (y + count) add "o" add a2];
+               if(_root.czone == 2 && _root.cact == 3 && _root.boss != "on")
+               {
+                  if(obid == 121 || obid == 122)
+                  {
+                     obid = 125;
+                  }
+                  else if(obid == 123)
+                  {
+                     obid = 126;
+                  }
+               }
                if(lvlo["x" add (x + (a - count * 3)) add "y" add (y + count) add "o" add a2] == 11 || lvlo["x" add (x + (a - count * 3)) add "y" add (y + count) add "o" add a2] == 12 || lvlo["x" add (x + (a - count * 3)) add "y" add (y + count) add "o" add a2] == 2 || lvlo["x" add (x + (a - count * 3)) add "y" add (y + count) add "o" add a2] == 17)
                {
                   _root.levelo2["p" add a].attachMovie("object" add obid,"o" add a2,a2);
@@ -139,7 +150,14 @@ onClipEvent(load){
    pwh = 90;
    count = 0;
    this.p1.swapDepths(-1);
-   this.attachMovie("level-" add _root.czone,"p1",1);
+   if(_root.czone == 2 && _root.cact == 3 && _root.boss != "on")
+   {
+      this.attachMovie("level-1","p1",1);
+   }
+   else
+   {
+      this.attachMovie("level-" add _root.czone,"p1",1);
+   }
    this.p1._x = 0;
    this.p1._y = 0;
    var forvar = 2;
@@ -159,6 +177,10 @@ onClipEvent(load){
    if(_root.boss == "on")
    {
       _root.attachMovie("zone-boss","loadlevel",51);
+   }
+   else if(_root.czone == 2 && _root.cact == 3)
+   {
+      _root.attachMovie("zone1-act1","loadlevel",51);
    }
    else
    {

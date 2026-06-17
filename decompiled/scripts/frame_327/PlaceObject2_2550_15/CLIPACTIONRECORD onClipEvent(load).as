@@ -2,7 +2,14 @@ onClipEvent(load){
    pw = 180;
    pwh = 90;
    count = 0;
-   this.attachMovie("level-" add _root.czone,"p1",1);
+   if(_root.czone == 2 && _root.cact == 3 && _root.boss != "on")
+   {
+      this.attachMovie("level-1","p1",1);
+   }
+   else
+   {
+      this.attachMovie("level-" add _root.czone,"p1",1);
+   }
    this.p1._x = 0;
    this.p1._y = 0;
    this.p1.swapDepths(-1);

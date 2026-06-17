@@ -12,7 +12,7 @@ onClipEvent(load){
    {
       music("boss",999999);
    }
-   else if(_root.czone == 1)
+   else if(_root.czone == 1 || _root.czone == 2 && _root.cact == 3)
    {
       music("angelisland",999999);
    }

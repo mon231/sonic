@@ -85,7 +85,12 @@ else if(_root.mode == "main")
          _root.save[_root.chara] = _root.czone add _root.cact;
       }
       _root.cact += 1;
-      if(2 < _root.cact)
+      maxact = 2;
+      if(_root.czone == 2)
+      {
+         maxact = 3;
+      }
+      if(maxact < _root.cact)
       {
          _root.cact = 1;
          _root.boss = "on";
