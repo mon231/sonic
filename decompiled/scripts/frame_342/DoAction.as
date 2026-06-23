@@ -58,6 +58,8 @@ else if(_root.restart == "on")
 }
 else if(_root.mode == "timetrial")
 {
+   _root.boss = "off";
+   _root.doubleboss = "off";
    gotoAndStop(314);
 }
 else if(_root.mode == "main")
