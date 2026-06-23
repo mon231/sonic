@@ -104,6 +104,7 @@ _root.bossn[1] = "spinning egg";
 _root.bossn[2] = "egg bomber";
 _root.czone = 1;
 _root.cact = 1;
+_root.doubleboss = "off";
 _root.zone[1] = "LEAF FOREST";
 _root.act["1-bosstime"] = 120;
 _root.act["1-1"] = "chill gardens";

@@ -1,6 +1,13 @@
 if(_root.boss == "on")
 {
-   t = _root.bossn[_root.czone];
+   if(_root.doubleboss == "on")
+   {
+      t = "combo boss";
+   }
+   else
+   {
+      t = _root.bossn[_root.czone];
+   }
 }
 else
 {

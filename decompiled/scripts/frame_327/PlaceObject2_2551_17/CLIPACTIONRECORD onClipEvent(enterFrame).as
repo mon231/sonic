@@ -19,6 +19,10 @@ onClipEvent(enterFrame){
          }
          _root.Sonic1._x -= bossspeed;
          _root.bossobj._y = Math.round(_root.bossobj._y - (_root.Sonic1._y - h) / CameraSpeed);
+         if(_root.doubleboss == "on")
+         {
+            _root.bossobj2._y = Math.round(_root.bossobj2._y - (_root.Sonic1._y - h) / CameraSpeed);
+         }
       }
       else
       {

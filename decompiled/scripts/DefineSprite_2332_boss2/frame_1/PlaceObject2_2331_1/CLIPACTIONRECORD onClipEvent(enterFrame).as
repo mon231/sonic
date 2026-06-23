@@ -55,7 +55,18 @@ onClipEvent(enterFrame){
          }
          if(_root[getProperty("../", _name)]._x < -20)
          {
-            _root.attachMovie("Leveloutro","leveloutro",50);
+            if(_root.doubleboss == "on")
+            {
+               _root.boss2dead = true;
+               if(_root.boss1dead)
+               {
+                  _root.attachMovie("Leveloutro","leveloutro",50);
+               }
+            }
+            else
+            {
+               _root.attachMovie("Leveloutro","leveloutro",50);
+            }
             _root[getProperty("../", _name)].removeMovieClip();
          }
       }

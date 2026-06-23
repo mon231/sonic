@@ -21,6 +21,7 @@ _root.hud.removeMovieClip();
 _root.leveloutro.removeMovieClip();
 _root.cheese.removeMovieClip();
 _root.bossobj.removeMovieClip();
+_root.bossobj2.removeMovieClip();
 _root.pausescreen.removeMovieClip();
 _root.gameover.removeMovieClip();
 if(!(_root.boss == "on" || _root.quit == "on" || _root.restart == "on"))
@@ -39,6 +40,7 @@ if(!(_root.boss == "on" || _root.quit == "on" || _root.restart == "on"))
 if(_root.quit == "on")
 {
    _root.boss = "off";
+   _root.doubleboss = "off";
    _root.quit = "off";
    gotoAndStop(291);
 }
@@ -69,7 +71,17 @@ else if(_root.mode == "main")
       }
       if(_root.czone >= 2)
       {
-         _root.attachMovie("End","End",50);
+         if(_root.doubleboss == "on")
+         {
+            _root.doubleboss = "off";
+            _root.attachMovie("End","End",50);
+         }
+         else
+         {
+            _root.doubleboss = "on";
+            _root.boss = "on";
+            gotoAndStop(327);
+         }
       }
       else
       {

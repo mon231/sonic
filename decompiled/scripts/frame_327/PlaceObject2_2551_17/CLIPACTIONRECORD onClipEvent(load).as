@@ -130,9 +130,17 @@ onClipEvent(load){
    }
    if(_root.boss == "on")
    {
+      _root.boss1dead = false;
+      _root.boss2dead = false;
       _root.attachMovie(["boss" add _root.czone],"bossobj",59);
       _root.bossobj._x = 265;
       _root.bossobj._y = 60;
+      if(_root.doubleboss == "on")
+      {
+         _root.attachMovie("boss1","bossobj2",58);
+         _root.bossobj2._x = 130;
+         _root.bossobj2._y = 60;
+      }
    }
    _root.objtotal = 10;
    _root.objcount = 1;
