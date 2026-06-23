@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Blue head -->
+  <circle cx="16" cy="19" r="13" fill="#1468C8"/>
+  <!-- Spikes -->
+  <polygon points="6,13 2,4 13,10" fill="#1468C8"/>
+  <polygon points="16,8 13,0 21,6" fill="#1468C8"/>
+  <polygon points="25,13 20,4 28,11" fill="#1468C8"/>
+  <!-- Tan muzzle -->
+  <ellipse cx="17" cy="25" rx="8" ry="6" fill="#EDAA73"/>
+  <!-- Connected white eye area -->
+  <path d="M8,15 C8,10 10,9 14,10 L19,10 C23,9 25,10 25,15 C25,20 23,20 19,20 L13,20 C10,20 8,20 8,15 Z" fill="white"/>
+  <!-- Black pupils -->
+  <ellipse cx="13" cy="15.5" rx="3" ry="3.5" fill="#111"/>
+  <ellipse cx="21" cy="15.5" rx="3" ry="3.5" fill="#111"/>
+  <!-- Eye shine -->
+  <circle cx="14.5" cy="14" r="1" fill="white"/>
+  <circle cx="22.5" cy="14" r="1" fill="white"/>
+  <!-- Nose -->
+  <ellipse cx="19" cy="23" rx="2" ry="1.5" fill="#333"/>
+</svg>
