@@ -41,6 +41,7 @@ if(_root.quit == "on")
 {
    _root.boss = "off";
    _root.doubleboss = "off";
+   _root.penguinboss = "off";
    _root.quit = "off";
    gotoAndStop(291);
 }
@@ -60,6 +61,7 @@ else if(_root.mode == "timetrial")
 {
    _root.boss = "off";
    _root.doubleboss = "off";
+   _root.penguinboss = "off";
    gotoAndStop(314);
 }
 else if(_root.mode == "main")
@@ -67,16 +69,25 @@ else if(_root.mode == "main")
    if(boss == "on")
    {
       _root.boss = "off";
+      waspeng = _root.penguinboss;
+      _root.penguinboss = "off";
       if(_root.czone >= Number(_root.save[_root.chara].charAt(0)))
       {
          _root.save[_root.chara] = _root.czone + 1 add "1";
       }
       if(_root.czone >= 2)
       {
-         if(_root.doubleboss == "on")
+         if(waspeng == "on")
          {
             _root.doubleboss = "off";
             _root.attachMovie("End","End",50);
+         }
+         else if(_root.doubleboss == "on")
+         {
+            _root.doubleboss = "off";
+            _root.penguinboss = "on";
+            _root.boss = "on";
+            gotoAndStop(327);
          }
          else
          {

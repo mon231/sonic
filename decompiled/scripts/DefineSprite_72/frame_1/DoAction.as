@@ -1,6 +1,10 @@
 if(_root.boss == "on")
 {
-   if(_root.doubleboss == "on")
+   if(_root.penguinboss == "on")
+   {
+      t = "animal-dropper";
+   }
+   else if(_root.doubleboss == "on")
    {
       t = "combo boss";
    }

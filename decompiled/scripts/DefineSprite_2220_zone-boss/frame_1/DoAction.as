@@ -114,6 +114,24 @@ tellTarget(_root.Level)
    lvl.x19y3 = 7;
    lvl.x20y2 = 1;
    lvl.x20y3 = 7;
+   if(_root.penguinboss == "on")
+   {
+      lvlo.x4y2ypos1 = -74;
+      lvlo.x4y2ypos2 = -74;
+      lvlo.x4y2ypos3 = -74;
+      lvlo.x5y2ypos1 = -74;
+      lvlo.x5y2ypos2 = -74;
+      lvlo.x5y2ypos3 = -74;
+      lvlo.x8y2ypos1 = -74;
+      lvlo.x8y2ypos2 = -74;
+      lvlo.x8y2ypos3 = -74;
+      lvlo.x12y2ypos1 = -74;
+      lvlo.x12y2ypos2 = -74;
+      lvlo.x12y2ypos3 = -74;
+      lvlo.x16y2ypos1 = -74;
+      lvlo.x16y2ypos2 = -74;
+      lvlo.x16y2ypos3 = -74;
+   }
 }
 tellTarget(_root.Level)
 {

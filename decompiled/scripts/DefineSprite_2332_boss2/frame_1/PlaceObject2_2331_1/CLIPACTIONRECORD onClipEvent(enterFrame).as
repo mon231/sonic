@@ -8,7 +8,21 @@ onClipEvent(enterFrame){
             count += 1;
             if(50 < count)
             {
-               _root.Level.setobject("obj_eggbomb",_root[getProperty("../", _name)]._x,_root[getProperty("../", _name)]._y + 20,0,0);
+               if(_root.penguinboss == "on")
+               {
+                  if(random(2) == 0)
+                  {
+                     _root.Level.setobject("object123",_root[getProperty("../", _name)]._x,_root[getProperty("../", _name)]._y + 20,0,0);
+                  }
+                  else
+                  {
+                     _root.Level.setobject("object125",_root[getProperty("../", _name)]._x,_root[getProperty("../", _name)]._y + 20,0,0);
+                  }
+               }
+               else
+               {
+                  _root.Level.setobject("obj_eggbomb",_root[getProperty("../", _name)]._x,_root[getProperty("../", _name)]._y + 20,0,0);
+               }
                _root.fx.fx("eggbomb");
                count = 0;
             }
@@ -18,7 +32,21 @@ onClipEvent(enterFrame){
             count += 1;
             if(25 < count)
             {
-               _root.Level.setobject("obj_eggbomb",_root[getProperty("../", _name)]._x,_root[getProperty("../", _name)]._y + 20,0,0);
+               if(_root.penguinboss == "on")
+               {
+                  if(random(2) == 0)
+                  {
+                     _root.Level.setobject("object123",_root[getProperty("../", _name)]._x,_root[getProperty("../", _name)]._y + 20,0,0);
+                  }
+                  else
+                  {
+                     _root.Level.setobject("object125",_root[getProperty("../", _name)]._x,_root[getProperty("../", _name)]._y + 20,0,0);
+                  }
+               }
+               else
+               {
+                  _root.Level.setobject("obj_eggbomb",_root[getProperty("../", _name)]._x,_root[getProperty("../", _name)]._y + 20,0,0);
+               }
                _root.fx.fx("eggbomb");
                count = 0;
             }

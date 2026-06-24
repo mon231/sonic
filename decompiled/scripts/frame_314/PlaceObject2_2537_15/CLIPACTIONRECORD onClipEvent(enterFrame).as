@@ -17,20 +17,30 @@ onClipEvent(enterFrame){
             _root.cact = currentact;
             _root.boss = "off";
             _root.doubleboss = "off";
+            _root.penguinboss = "off";
             if(currentzone == 1 && currentact == 3)
             {
                _root.boss = "on";
                _root.cact = 1;
             }
-            else if(currentzone == 2 && currentact == 4)
+            else if(currentzone == 3 && currentact == 1)
             {
+               _root.czone = 2;
                _root.boss = "on";
                _root.cact = 1;
             }
-            else if(currentzone == 2 && currentact == 5)
+            else if(currentzone == 3 && currentact == 2)
             {
+               _root.czone = 2;
                _root.boss = "on";
                _root.doubleboss = "on";
+               _root.cact = 1;
+            }
+            else if(currentzone == 3 && currentact == 3)
+            {
+               _root.czone = 2;
+               _root.boss = "on";
+               _root.penguinboss = "on";
                _root.cact = 1;
             }
             _root.fade.play();

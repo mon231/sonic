@@ -99,7 +99,7 @@ onClipEvent(load){
          passw = "invalid passwd";
          if(this["b" add passn].t.toUpperCase() == "ATAT")
          {
-            this["b" add passn].t = "595313131313131";
+            this["b" add passn].t = "652343434343434";
          }
          if(this["b" add passn].t.toLowerCase() == "dennis_gid")
          {

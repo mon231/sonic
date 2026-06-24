@@ -1,7 +1,76 @@
 onClipEvent(enterFrame){
    if(_root.pause == 0)
    {
-      if(eval("../:energy") >= 0)
+      if(this.pinit != "on")
+      {
+         this.pinit = "on";
+         if(eval("../:object") == undefined)
+         {
+            this.pmode = "on";
+            this.plife = 0;
+            set("../:energy",0);
+         }
+      }
+      if(this.pmode == "on")
+      {
+         if(eval("../:energy") < 0)
+         {
+            this.gotoAndStop("explosion");
+            if(this.pdie > 0)
+            {
+               this.pdie += 1;
+            }
+            else
+            {
+               this.pdie = 1;
+            }
+            if(this.pdie > 8)
+            {
+               _root[getProperty("../", _name)].removeMovieClip();
+            }
+         }
+         else
+         {
+            _root[getProperty("../", _name)]._x -= (_root[getProperty("../", _name)]._x - _root.Sonic1._x) / 18;
+            _root[getProperty("../", _name)]._y -= (_root[getProperty("../", _name)]._y - _root.Sonic1._y) / 18;
+            this.gotoAndStop("attack");
+            if(_root.Sonic1._x < _root[getProperty("../", _name)]._x)
+            {
+               this._xscale = -100;
+            }
+            else
+            {
+               this._xscale = 100;
+            }
+            this.plife += 1;
+            if(this.plife > 90)
+            {
+               _root[getProperty("../", _name)].removeMovieClip();
+            }
+            if(this.hitTest(_root.Sonic1.hitb))
+            {
+               if(_root.Sonic1.roll == "on")
+               {
+                  set("../:energy",eval("../:energy") - 1);
+               }
+               else if(_root.Sonic1.j == "on")
+               {
+                  set("../:energy",eval("../:energy") - 1);
+                  if(_root.Sonic1.y < 0)
+                  {
+                     _root.Sonic1.y *= -1;
+                  }
+                  _root.fx.fx("box");
+                  _root.score += _root.scorev.enemy;
+               }
+               else
+               {
+                  _root.Sonic1.sethit();
+               }
+            }
+         }
+      }
+      else if(eval("../:energy") >= 0)
       {
          if(attack != "off")
          {
