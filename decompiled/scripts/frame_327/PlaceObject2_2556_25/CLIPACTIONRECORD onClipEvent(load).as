@@ -140,7 +140,7 @@ onClipEvent(load){
       {
          if(jumpdown == "off")
          {
-            if(chara == "tails" || chara == "cream" || _root.cheat[6] == 2)
+            if(chara == "tails" || chara == "cream" || chara == "claude" || _root.cheat[6] == 2)
             {
                if(fly == "off" && gpound != "on")
                {
@@ -548,7 +548,15 @@ onClipEvent(load){
    _root.rings = 0;
    _root.lrtotal = 25;
    chara = _root.chara;
-   this.attachMovie(chara,"sonic",1);
+   if(chara == "claude")
+   {
+      this.attachMovie("sonic","sonic",1);
+      _root.makeClaude(this);
+   }
+   else
+   {
+      this.attachMovie(chara,"sonic",1);
+   }
    up = "38";
    down = "40";
    left = "37";

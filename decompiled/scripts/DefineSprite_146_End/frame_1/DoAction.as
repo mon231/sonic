@@ -29,6 +29,10 @@ else if(_root.chara == "shadow")
 {
    num = 6;
 }
+else if(_root.chara == "claude")
+{
+   num = 1;
+}
 if(_root.zones < Number(_root.save.sonic.charAt(0)) && _root.zones < Number(_root.save.tails.charAt(0)))
 {
    if(_root.zones < Number(_root.save.knuckles.charAt(0)) && _root.zones < Number(_root.save.cream.charAt(0)))

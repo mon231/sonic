@@ -1,5 +1,5 @@
 onClipEvent(enterFrame){
-   if(this.hitTest(_root.Sonic1))
+   if(this.hitTest(_root.Sonic1.hitb))
    {
       _root.Sonic1.sproing();
       _root.Sonic1._xscale = 100;

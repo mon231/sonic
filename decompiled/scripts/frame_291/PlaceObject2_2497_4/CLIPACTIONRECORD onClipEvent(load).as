@@ -35,8 +35,9 @@ onClipEvent(load){
    chara[4] = "Cream";
    chara[5] = "Amy";
    chara[6] = "Shadow";
-   chara[7] = "Start Game";
-   chara[8] = "back";
+   chara[7] = "Claude";
+   chara[8] = "Start Game";
+   chara[9] = "back";
    password = new Array();
    password.name = "password";
    password[1] = "enter password";

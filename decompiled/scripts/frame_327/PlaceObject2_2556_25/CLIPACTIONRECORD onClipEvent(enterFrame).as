@@ -262,13 +262,17 @@ onClipEvent(enterFrame){
          cdepth = 8;
       }
       this.swapDepths(this.cdepth);
+      if(chara == "claude")
+      {
+         _root.animClaude(this);
+      }
       if(chara == "cream")
       {
          _root.cheese.swapDepths(this.cdepth - 1);
       }
       if(_root.pause == 0)
       {
-         if(chara == "tails" || chara == "cream" || _root.cheat[6] == 2)
+         if(chara == "tails" || chara == "cream" || chara == "claude" || _root.cheat[6] == 2)
          {
             if(fly != "off")
             {

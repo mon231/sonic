@@ -1,1 +1,8 @@
-gotoAndStop([_root.chara]);
+if(_root.chara == "claude")
+{
+   gotoAndStop("sonic");
+}
+else
+{
+   gotoAndStop([_root.chara]);
+}

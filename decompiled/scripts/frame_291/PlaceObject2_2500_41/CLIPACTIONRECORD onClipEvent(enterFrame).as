@@ -1,4 +1,13 @@
 onClipEvent(enterFrame){
+   if(_root.chara == "claude" && this.cicon._width > 0)
+   {
+      var cb = this.character.getBounds(this);
+      var cbh = cb.yMax - cb.yMin;
+      this.cicon._height = cbh;
+      this.cicon._width = cbh;
+      this.cicon._x = (cb.xMin + cb.xMax) / 2 - this.cicon._width / 2;
+      this.cicon._y = (cb.yMin + cb.yMax) / 2 - this.cicon._height / 2;
+   }
    if(1 < this.character._currentframe)
    {
       if(this.character._currentframe >= this.character._totalframes - 1)
@@ -50,11 +59,30 @@ onClipEvent(enterFrame){
    {
       _root.fx.fx("swish");
       this._x = startx + 100;
-      this.attachMovie(["select_" add _root.chara],"character",1);
+      this.cicon.removeMovieClip();
+      if(_root.chara == "claude")
+      {
+         this.attachMovie("select_sonic","character",1);
+         this.character._visible = false;
+         this.attachMovie("select_sonic","cicon",2);
+         this.cicon.loadMovie("resources/claude.png");
+      }
+      else
+      {
+         this.attachMovie(["select_" add _root.chara],"character",1);
+      }
       this.character.stop();
       eval("../:balken")._y = 240;
-      _root.balken.chara = this[_root.chara];
-      eval("../:balken").balken.gotoAndStop([_root.chara]);
+      if(_root.chara == "claude")
+      {
+         _root.balken.chara = "CLAUDE";
+         eval("../:balken").balken.gotoAndStop("sonic");
+      }
+      else
+      {
+         _root.balken.chara = this[_root.chara];
+         eval("../:balken").balken.gotoAndStop([_root.chara]);
+      }
       eval("../:balken").gotoAndPlay(1);
       chara = _root.chara;
    }
