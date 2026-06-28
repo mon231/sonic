@@ -147,7 +147,10 @@ onClipEvent(load){
                   if(j == "on")
                   {
                      fly = 100;
-                     j = "off";
+                     if(chara != "claude")
+                     {
+                        j = "off";
+                     }
                   }
                }
                else if(0 < fly)

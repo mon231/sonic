@@ -101,8 +101,8 @@ _root.save.claude = "01";
 _root.makeClaude = function(ctrl)
 {
    var hb = ctrl.hitb.getBounds(ctrl);
-   ctrl.cw = (hb.xMax - hb.xMin) * 1.15;
-   ctrl.ch = (hb.yMax - hb.yMin) * 1.15;
+   ctrl.cw = (hb.xMax - hb.xMin) * 1;
+   ctrl.ch = (hb.yMax - hb.yMin) * 1;
    ctrl.cxc = (hb.xMin + hb.xMax) / 2;
    ctrl.cyc = (hb.yMin + hb.yMax) / 2;
    ctrl.attachMovie("knuckles","kroll",200);
@@ -116,8 +116,12 @@ _root.makeClaude = function(ctrl)
    ctrl.attachMovie("select_sonic","csad",203);
    ctrl.csad.loadMovie("resources/claude_sad.png");
    ctrl.csad._visible = false;
+   ctrl.attachMovie("select_sonic","cball",204);
+   ctrl.cball.loadMovie("resources/claude_ball.png");
+   ctrl.cball._visible = false;
    ctrl.sonic.loadMovie("resources/claude.png");
    ctrl.ct = 0;
+   ctrl.crot = 0;
    ctrl.pj = "off";
    ctrl.pufft = 0;
    ctrl.fxready = false;
@@ -160,7 +164,7 @@ _root.animClaude = function(ctrl)
    }
    if(ctrl.fxready != true)
    {
-      if(ctrl.cstreak._width > 0 && ctrl.cpuff._width > 0)
+      if(ctrl.cstreak._width > 0 && ctrl.cpuff._width > 0 && ctrl.cball._width > 0)
       {
          ctrl.fxready = true;
       }
@@ -182,6 +186,11 @@ _root.animClaude = function(ctrl)
       ctrl.kroll._yscale = 0;
       ctrl.kroll._x = ctrl.cxc;
       ctrl.kroll._y = ctrl.cyc;
+      ctrl.cball._visible = false;
+      ctrl.cball._xscale = 0;
+      ctrl.cball._yscale = 0;
+      ctrl.cball._x = ctrl.cxc;
+      ctrl.cball._y = ctrl.cyc;
       if(!air && !flying && ctrl.roll != "on" && sp > 8)
       {
          ctrl.cstreak._visible = true;
@@ -229,21 +238,36 @@ _root.animClaude = function(ctrl)
       ctrl.cstreak._visible = false;
       ctrl.cpuff._visible = false;
       ctrl.kroll._visible = false;
+      ctrl.cball._visible = false;
    }
    if(ctrl.pufft > 0)
    {
       ctrl.pufft = ctrl.pufft - 1;
    }
-   if(!flying && (ctrl.roll == "on" || ctrl.j == "on"))
+   if((ctrl.roll == "on" || ctrl.j == "on") && !tired)
    {
       ctrl.kroll._visible = false;
       ctrl.csad._visible = false;
-      ic._visible = true;
-      if(ic._width > 0)
+      ctrl.crot = ctrl.crot + (9 + sp * 1.4) * dir;
+      if(ctrl.fxready)
       {
+         ic._visible = false;
+         ctrl.cball._visible = true;
+         var bd = (ctrl.cw + ctrl.ch) / 2;
+         var bs = bd / 256;
+         ctrl.cball._xscale = bs * 100;
+         ctrl.cball._yscale = bs * 100;
+         ctrl.cball._rotation = ctrl.crot;
+         var crad = ctrl.crot * 0.017453292519943295;
+         ctrl.cball._x = ctrl.cxc - bs * 128 * (Math.cos(crad) - Math.sin(crad));
+         ctrl.cball._y = ctrl.cyc - bs * 128 * (Math.sin(crad) + Math.cos(crad));
+      }
+      else
+      {
+         ic._visible = true;
          ic._xscale = ctrl.cw / 256 * 100;
          ic._yscale = ctrl.ch / 256 * 100;
-         ic._rotation = ctrl.ct * 28;
+         ic._rotation = 0;
          ic._x = ctrl.cxc - ic._width / 2;
          ic._y = ctrl.cyc - ic._height / 2;
       }

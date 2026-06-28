@@ -1,5 +1,5 @@
 import math, os
-from PIL import Image, ImageDraw, ImageFilter
+from PIL import Image, ImageDraw, ImageFilter, ImageChops
 
 OUT = r"C:\Users\avart\Desktop\sonic_remake\resources"
 os.makedirs(OUT, exist_ok=True)
@@ -180,8 +180,65 @@ def make_cry():
     img = img.resize((128, 128), Image.LANCZOS)
     save(img, "cry.png")
 
+# ---------- claude_ball.png : coral spin-ball (curved-ray pinwheel) for roll/jump (256x256) ----------
+def make_ball():
+    SS, OUTP = 1024, 256
+    cx = cy = SS / 2.0
+    R = SS / 2.0 - 18
+    img = Image.new("RGBA", (SS, SS), (0, 0, 0, 0))
+    d = ImageDraw.Draw(img)
+    d.ellipse([cx - R, cy - R, cx + R, cy + R], fill=CORAL)
+    # curved swept spokes -> a pinwheel that visibly spins when the sprite is rotated
+    N = 12
+    twist = 1.0                       # radians each spoke sweeps from center to rim
+    ww = (2 * math.pi / N) * 0.60     # angular width of each spoke
+    steps = 26
+    for i in range(N):
+        a0 = (i / N) * 2 * math.pi
+        col = CORAL_D if i % 2 == 0 else CORAL_L
+        pts = []
+        for s in range(steps + 1):
+            rr = R * (s / steps); ang = a0 + twist * (s / steps)
+            pts.append((cx + rr * math.cos(ang), cy + rr * math.sin(ang)))
+        for s in range(steps, -1, -1):
+            rr = R * (s / steps); ang = a0 + ww + twist * (s / steps)
+            pts.append((cx + rr * math.cos(ang), cy + rr * math.sin(ang)))
+        d.polygon(pts, fill=col)
+    # round mask
+    mask = Image.new("L", (SS, SS), 0)
+    ImageDraw.Draw(mask).ellipse([cx - R, cy - R, cx + R, cy + R], fill=255)
+    img.putalpha(mask)
+    # spherical radial shading (multiply), light from upper-left
+    shade = Image.new("L", (SS, SS), 0)
+    sh = shade.load()
+    lcx, lcy = cx - R * 0.30, cy - R * 0.30
+    step = 2
+    for y in range(0, SS, step):
+        for x in range(0, SS, step):
+            t = min(1.0, math.hypot(x - lcx, y - lcy) / (R * 1.7))
+            v = int(255 * (1.0 - 0.40 * (t ** 1.4)))
+            for yy in range(y, min(y + step, SS)):
+                for xx in range(x, min(x + step, SS)):
+                    sh[xx, yy] = v
+    r, g, b, a = img.split()
+    rgb = ImageChops.multiply(Image.merge("RGB", (r, g, b)), Image.merge("RGB", (shade, shade, shade)))
+    r, g, b = rgb.split()
+    img = Image.merge("RGBA", (r, g, b, a))
+    # soft white specular highlight upper-left
+    hi = Image.new("RGBA", (SS, SS), (0, 0, 0, 0))
+    hlr = R * 0.30
+    hcx, hcy = cx - R * 0.34, cy - R * 0.34
+    ImageDraw.Draw(hi).ellipse([hcx - hlr, hcy - hlr, hcx + hlr, hcy + hlr], fill=(255, 255, 255, 200))
+    hi = hi.filter(ImageFilter.GaussianBlur(SS // 22))
+    hr, hg, hb, ha = hi.split()
+    ha = ImageChops.multiply(ha, mask)
+    hi = Image.merge("RGBA", (hr, hg, hb, ha))
+    img = Image.alpha_composite(img, hi)
+    save(img.resize((OUTP, OUTP), Image.LANCZOS), "claude_ball.png")
+
 make_claude("happy")
 make_claude("sad")
+make_ball()
 make_puff()
 make_streak()
 print("DONE ->", OUT)

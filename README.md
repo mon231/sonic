@@ -1,3 +1,5 @@
+<!-- claude --resume abe3d4c0-b245-4e0f-a273-908d05f1c477 -->
+
 # Ultimate Sonic Flash — Modded
 [Click To Play](https://mon231.github.io/sonic/)
 
